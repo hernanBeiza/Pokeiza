@@ -1,6 +1,6 @@
 # Pokeiza
 ## Bienvenidos
-Aquí está mi trabajo de las clases de Programación de dispositivos móviles. Hay varias cosas que tuve que enfrentar en el desarrollo que pueden servirte para solucionar algún problema que puedas tener. Esta aplicación está alimentada gracias a **pokeapi.co** **¡Ojalá te sirva como inspiración!** 
+Aquí está mi trabajo solemne nº2 para el ramo **Programación de dispositivos Móviles** impartido por el profesor Andrés Muñoz. Hay varias cosas que tuve que enfrentar en el desarrollo que pueden servirte para solucionar algún problema que puedas tener. Esta aplicación está alimentada gracias a **pokeapi.co** **¡Ojalá te sirva como inspiración!** 
 
 ## Índice
 ### Pendientes
