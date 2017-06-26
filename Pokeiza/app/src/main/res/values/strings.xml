@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Pokeiza</string>
+    <string name="title_activity_pokemon">PokemonActivity</string>
+    <string name="NombreTitulo">Nombre:</string>
+    <string name="PesoTitulo">Peso:</string>
+    <string name="TamanoTitulo">Tamaño:</string>
+    <string name="CaracteristicasTitulo">Caracteristísticas:</string>
+    <string name="HabilidadesTitulo">Habilidades:</string>
+    <string name="TiposTitulo">Tipos:</string>
+    <string name="BotonVolver">Volver</string>
+    <string name="Configuracion">Configuración</string>
+    <string name="Creditos">Créditos</string>
+    <string name="CreditosString">Gracias a By Roundicons Freebies® por el ícono. Y a flaticon por distribuirlo.</string>
+</resources>

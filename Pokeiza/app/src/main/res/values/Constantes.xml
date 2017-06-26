@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ConstanteTipo">ConstanteTipo</string>
+    <string name="ConstantePokemon">ConstantePokemon</string>
+    <string name="ConstanteConfiguracion">ConstanteConfiguracion</string>
+    <string name="ConstanteShared">ConstanteShared</string>
+</resources>

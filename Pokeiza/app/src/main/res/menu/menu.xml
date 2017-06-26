@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Controllers.TiposController.PrincipalActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <item android:id="@+id/menuItemCreditos" android:title="@string/Creditos"
+        android:orderInCategory="100"/>
+    <item android:id="@+id/menuItemConfiguracion" android:title="@string/Configuracion"
+        android:orderInCategory="100"/>
+</menu>
