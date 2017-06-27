@@ -21,6 +21,7 @@ import cl.hiperactivo.pokeiza.DAO.DBLocalOpenHelper;
 import cl.hiperactivo.pokeiza.Models.PokemonModel;
 import cl.hiperactivo.pokeiza.Models.TipoModel;
 import cl.hiperactivo.pokeiza.R;
+import cl.hiperactivo.pokeiza.libs.Alerta;
 import cl.hiperactivo.pokeiza.libs.Sonido;
 
 public class PokemonesActivity extends AppCompatActivity {
@@ -28,7 +29,6 @@ public class PokemonesActivity extends AppCompatActivity {
     private static final String tag = "PokemonesActivity";
 
     private ListView pokemonesListView;
-    private ArrayList<PokemonModel> pokemones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +39,12 @@ public class PokemonesActivity extends AppCompatActivity {
         pokemonesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 Log.d(tag, "onItemClick " + position);
-                PokemonModel pokemon = (PokemonModel) pokemones.get(position);
+                PokemonModel pokemon = (PokemonModel) pokemonesListView.getAdapter().getItem(position);
                 Log.d(tag, pokemon.toString());
 
                 Sonido sonido = new Sonido(getApplicationContext());
                 sonido.intentarReproducir(R.raw.itemselected);
-
+                // Pasamos un modelo de pokemon a la vista siguiente
                 Intent intent = new Intent(getApplicationContext(), PokemonActivity.class);
                 intent.putExtra(getString(R.string.ConstantePokemon),pokemon);
                 startActivity(intent);
@@ -62,13 +62,14 @@ public class PokemonesActivity extends AppCompatActivity {
 
     }
 
+    //Obtiene el menú desde el archivo xm en res/menu y lo pone en pantalla
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
+    //Al hacer click en un elemento del menú, muestra la vista correspondiente
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -90,14 +91,19 @@ public class PokemonesActivity extends AppCompatActivity {
         this.finish();
     }
 
+    /**
+     * Carga los pokemones según el tipo
+     * @param tipo TipoModel
+     */
     private void cargarPokemonesConTipo(TipoModel tipo){
         DBLocalOpenHelper openHelper = new DBLocalOpenHelper(getApplicationContext());
-        this.pokemones = openHelper.obtenerPokemonesConTipo(tipo);
+        ArrayList<PokemonModel> pokemones = openHelper.obtenerPokemonesConTipo(tipo);
         if(pokemones!=null){
             PokemonesAdapter adapter = new PokemonesAdapter(getApplicationContext(),R.layout.layout_pokemon,pokemones);
             pokemonesListView.setAdapter(adapter);
         } else {
             Log.d(tag,"No hay pokemones de ese tipo");
+            Alerta.getInstance().mostrarme(this,"No hay pokemons de este tipo", true);
         }
 
     }

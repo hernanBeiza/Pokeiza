@@ -56,6 +56,7 @@ public class TiposDAO {
 
         if(tiposList!=null && tiposList.size()>=18){
             Log.d(tag,"Cargar localmente");
+
             delegate.onTiposDAOComplete(tiposList);
         } else {
             Log.d(tag, "Cargar desde internet");

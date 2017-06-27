@@ -71,20 +71,21 @@ public class PokemonActivity extends AppCompatActivity implements PokemonDAO.Pok
     protected void onResume() {
         super.onResume();
         Log.d(tag,"onResume");
-
+        // Obtengo el modelo pasado de la vista anterior
         PokemonModel model = (PokemonModel) getIntent().getParcelableExtra(getString(R.string.ConstantePokemon));
         Log.d(tag,model.getNombre());
 
         this.cargarDetallesPokemon(model);
     }
 
+    //Obtiene el menú desde el archivo xm en res/menu y lo pone en pantalla
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
+    //Al hacer click en un elemento del menú, muestra la vista correspondiente
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -101,6 +102,10 @@ public class PokemonActivity extends AppCompatActivity implements PokemonDAO.Pok
         }
     }
 
+    /**
+     * Carga los detalles del pokemon según el POkemonModel seleccionado de la lista anterior
+     * @param pokemon
+     */
     private void cargarDetallesPokemon(PokemonModel pokemon){
         Cargador.getInstance().mostrarme(this,"¡Cargando detalles de este pokemon!");
         PokemonDAO dao = new PokemonDAO(this);
@@ -108,7 +113,7 @@ public class PokemonActivity extends AppCompatActivity implements PokemonDAO.Pok
         dao.cargarDetalleConID(pokemon);
     }
 
-    // PokemonDAODelegate
+    // Se implementa el dao de PokemonDAO
     @Override
     public void onPokemonesDAOComplete(PokemonModel model) {
         Cargador.getInstance().ocultarme();
@@ -145,7 +150,9 @@ public class PokemonActivity extends AppCompatActivity implements PokemonDAO.Pok
 
     }
 
-    // FileManagerDelegate
+    /* Se implementa el delegado de FileManager para saber si se carga o
+     no la imagen y mostrar una alerta
+     */
     @Override
     public void onFileManagerComplete(Bitmap imageBitmap) {
         Log.d(tag,"onFileManagerComplete");

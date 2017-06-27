@@ -33,7 +33,6 @@ public class PrincipalActivity extends AppCompatActivity implements TiposDAO.Tip
 
     private static final String tag = "PrincipalActivity";
     private ListView tiposListView;
-    private ArrayList<TipoModel> tipos;
     private int idtipo = 1;
 
     @Override
@@ -45,13 +44,13 @@ public class PrincipalActivity extends AppCompatActivity implements TiposDAO.Tip
 
         tiposListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                Log.d(tag, "onItemClick " + position);
-                TipoModel tipo = (TipoModel) tipos.get(position);
+                //Log.d(tag, "onItemClick " + position);
+                TipoModel tipo = (TipoModel) tiposListView.getAdapter().getItem(position);
                 Log.d(tag, tipo.toString());
 
                 Sonido sonido = new Sonido(getApplicationContext());
                 sonido.intentarReproducir(R.raw.itemselected);
-
+                //Pasamos un modelo de Tipo al intent siguiente
                 Intent intent = new Intent(getApplicationContext(), PokemonesActivity.class);
                 intent.putExtra(getString(R.string.ConstanteTipo),tipo);
                 startActivity(intent);
@@ -60,13 +59,14 @@ public class PrincipalActivity extends AppCompatActivity implements TiposDAO.Tip
 
     }
 
+    //Obtiene el menú desde el archivo xm en res/menu y lo pone en pantalla
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
+    //Al hacer click en un elemento del menú, muestra la vista correspondiente
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -90,6 +90,7 @@ public class PrincipalActivity extends AppCompatActivity implements TiposDAO.Tip
         this.cargarTipos();
     }
 
+    //Carga los tipos de pokemon
     private void cargarTipos(){
 
         Cargador.getInstance().mostrarme(this,"Cargando tipos...");
@@ -99,6 +100,7 @@ public class PrincipalActivity extends AppCompatActivity implements TiposDAO.Tip
         dao.cargar();
     }
 
+    // Se implementan los delegados de TipoDAO
     @Override
     public void onTiposDAOCargando(String tipo) {
         Cargador.getInstance().actualizarMensaje(tipo);
@@ -107,14 +109,12 @@ public class PrincipalActivity extends AppCompatActivity implements TiposDAO.Tip
     @Override
     public void onTiposDAOComplete(ArrayList<TipoModel> tipos) {
         Log.d(tag,"onTiposDAOComplete");
-        this.tipos = tipos;
 
         Cargador.getInstance().ocultarme();
         Toast.makeText(PrincipalActivity.this, "Tipos cargados correctamente", Toast.LENGTH_SHORT).show();
 
-        TiposAdapter adapter = new TiposAdapter(getApplicationContext(),R.layout.layout_tipo,this.tipos);
+        TiposAdapter adapter = new TiposAdapter(getApplicationContext(),R.layout.layout_tipo,tipos);
         tiposListView.setAdapter(adapter);
-
     }
 
     @Override
@@ -123,7 +123,6 @@ public class PrincipalActivity extends AppCompatActivity implements TiposDAO.Tip
         Log.d(tag,error);
 
         Cargador.getInstance().ocultarme();
-
         Toast.makeText(PrincipalActivity.this, error, Toast.LENGTH_LONG).show();
     }
 
