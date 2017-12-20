@@ -4,9 +4,6 @@ Aquí está mi trabajo solemne nº2 para el ramo **Programación de dispositivos
 
 ## Índice
 ### Pendientes
-
-#### Publicar
-* Sí. La publicaré.
  
 ### Comandos Útiles
 

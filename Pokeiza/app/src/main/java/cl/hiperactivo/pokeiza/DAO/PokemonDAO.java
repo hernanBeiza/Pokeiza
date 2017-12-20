@@ -24,7 +24,7 @@ import cl.hiperactivo.pokeiza.Models.PokemonModel;
 public class PokemonDAO {
 
     private static String tag = "PokemonDAO";
-    private static String urlPokemon = "http://pokeapi.co/api/v2/pokemon/";
+    private static String urlPokemon = "https://pokeapi.co/api/v2/pokemon/";
 
     private PokemonModel pokemonModel;
 
@@ -104,10 +104,10 @@ public class PokemonDAO {
                 JSONObject jsonResponse = new JSONObject(s);
 
                 int idPokemon = jsonResponse.getInt("id");
-                Log.d(tag,"idPokemon: " + idPokemon);
+                //Log.d(tag,"idPokemon: " + idPokemon);
 
                 String nombrePokemon = jsonResponse.getString("name");
-                Log.d(tag,"nombrePokemon: " + nombrePokemon);
+                //Log.d(tag,"nombrePokemon: " + nombrePokemon);
 
                 JSONArray caracteristicas = jsonResponse.getJSONArray("stats");
 
@@ -120,7 +120,7 @@ public class PokemonDAO {
                         caracteristicaString.append("-");
                     }
                 }
-                Log.d(tag,"características:" + caracteristicaString.toString());
+                //Log.d(tag,"características:" + caracteristicaString.toString());
 
                 JSONArray habilidades = jsonResponse.getJSONArray("abilities");
                 StringBuffer habilidadString = new StringBuffer();
@@ -132,7 +132,7 @@ public class PokemonDAO {
                         habilidadString.append("-");
                     }
                 }
-                Log.d(tag,"habilidades:" + habilidadString.toString());
+                //Log.d(tag,"habilidades:" + habilidadString.toString());
 
                 JSONArray tipos = jsonResponse.getJSONArray("types");
                 StringBuffer tiposString = new StringBuffer();
@@ -144,13 +144,13 @@ public class PokemonDAO {
                         tiposString.append("-");
                     }
                 }
-                Log.d(tag,"tipos: " + tiposString.toString());
+                //Log.d(tag,"tipos: " + tiposString.toString());
 
                 String peso = jsonResponse.getString("weight").toString().toUpperCase();
-                Log.d(tag, "peso: "+peso);
+                //Log.d(tag, "peso: "+peso);
 
                 String tamano = jsonResponse.getString("height").toString().toUpperCase();
-                Log.d(tag,"tamaño: "+tamano);
+                //Log.d(tag,"tamaño: "+tamano);
 
                 String foto = jsonResponse.getJSONObject("sprites").getString("front_default");
                 if(foto!=null){

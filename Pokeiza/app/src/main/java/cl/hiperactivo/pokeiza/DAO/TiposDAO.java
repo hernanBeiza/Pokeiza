@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import cl.hiperactivo.pokeiza.Models.PokemonModel;
 import cl.hiperactivo.pokeiza.Models.TipoModel;
 import cl.hiperactivo.pokeiza.libs.Cargador;
+import cl.hiperactivo.pokeiza.libs.Utilidades;
 
 /**
  * Created by hernanBeiza on 6/21/17.
@@ -28,7 +29,7 @@ import cl.hiperactivo.pokeiza.libs.Cargador;
 public class TiposDAO {
 
     private static String tag = "TipoDAO";
-    private static String urlTipos = "http://pokeapi.co/api/v2/type/";
+    private static String urlTipos = "https://pokeapi.co/api/v2/type/";
     private int idtipo = 1;
 
     private Context contexto;
@@ -53,16 +54,19 @@ public class TiposDAO {
 
         DBLocalOpenHelper openHelper = new DBLocalOpenHelper(contexto);
         ArrayList<TipoModel> tiposList = openHelper.obtenerTipos();
-
-        if(tiposList!=null && tiposList.size()>=18){
-            Log.d(tag,"Cargar localmente");
-
-            delegate.onTiposDAOComplete(tiposList);
-        } else {
-            Log.d(tag, "Cargar desde internet");
-            if(this.idtipo<19){
-                new TiposDAOTask().execute(String.valueOf(this.idtipo));
+        if (Utilidades.isConnected(contexto)) {
+            if(tiposList!=null && tiposList.size()>=18){
+                Log.d(tag,"Cargar localmente");
+                delegate.onTiposDAOComplete(tiposList);
+            } else {
+                Log.d(tag, "Cargar desde internet");
+                Log.d(tag,String.valueOf(this.idtipo));
+                if(this.idtipo<19){
+                    new TiposDAOTask().execute(String.valueOf(this.idtipo));
+                }
             }
+        } else {
+            Log.d(tag,"Sin conexión");
         }
 
     }
@@ -87,11 +91,15 @@ public class TiposDAO {
                 while ((line = reader.readLine()) != null) {
                     resultString.append(line);
                 }
+                conexion.disconnect();
             } catch (MalformedURLException e){
-                e.printStackTrace();
+                Log.d(tag,"Error al cargar los tipos. Ruta Mal Formada");
+                //e.printStackTrace();
             } catch (Exception ex){
+                Log.d(tag,"Error al cargar los tipos");
                 ex.printStackTrace();
             }
+
             return resultString.toString();
         }
 
@@ -99,20 +107,20 @@ public class TiposDAO {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.d(tag,"onPostExecute");
-
             DBLocalOpenHelper dbLocalOpenHelper = new DBLocalOpenHelper(contexto);
 
             try {
                 JSONObject jsonResponse = new JSONObject(s);
+                //Log.d(tag,jsonResponse.toString());
                 int id = jsonResponse.getInt("id");
-                Log.d(tag,"id: " + String.valueOf(id));
+                //Log.d(tag,"id: " + String.valueOf(id));
 
                 JSONArray nombres = jsonResponse.getJSONArray("names");
                 JSONObject spanish = (JSONObject)nombres.get(4);
                 //Log.d(tag,spanish.toString());
 
                 String nombre = spanish.getString("name");
-                Log.d(tag, nombre);
+                //Log.d(tag, nombre);
                 TipoModel model = new TipoModel(id,nombre.toUpperCase());
                 //Log.d(tag,model.toString());
                 if(dbLocalOpenHelper.agregarTipo(model)){
@@ -148,9 +156,9 @@ public class TiposDAO {
                 cargar();
 
             } catch (JSONException e){
+                Log.d(tag,"Error al obtener el JSON");
                 e.printStackTrace();
             }
-
 
         }
 
