@@ -36,7 +36,7 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Log.d(tag,"onCreate();");
-        //db.execSQL("CREATE TABLE 'tipo' ( `idtipo` INTEGER NOT NULL UNIQUE, `nombre` TEXT NOT NULL )");
+        //db.execSQL("CREATE TABLE 'tipo_item' ( `idtipo` INTEGER NOT NULL UNIQUE, `nombre` TEXT NOT NULL )");
         db.execSQL("CREATE TABLE 'tipo' ( `idtipo` INTEGER NOT NULL UNIQUE, `nombre` TEXT NOT NULL )");
         //db.execSQL("CREATE TABLE 'pokemon' ( `idpokemon` INTEGER, `idtipo` INTEGER, `nombre` TEXT, `tamano` TEXT, `peso` TEXT, `caracteristicas` TEXT, `habilidades` TEXT, `tipos` TEXT, `fotografia` TEXT )");
         db.execSQL("CREATE TABLE 'pokemon' ( `idpokemon` INTEGER, `idtipo` INTEGER, `nombre` TEXT DEFAULT NULL, `tamano` TEXT DEFAULT NULL, `peso` TEXT DEFAULT NULL, `caracteristicas` TEXT DEFAULT NULL, `habilidades` TEXT DEFAULT NULL, `tipos` TEXT DEFAULT NULL, `fotografia` TEXT DEFAULT NULL )");
@@ -47,7 +47,7 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
         Log.d(tag,"onUpgrade();");
         if (oldVersion!=newVersion){
             db.execSQL("DROP TABLE tipo");
-            Log.d(tag,"DROP TABLE tipo");
+            Log.d(tag,"DROP TABLE tipo_item");
 
             Log.d(tag,"DROP TABLE pokemon");
             db.execSQL("DROP TABLE pokemon");
@@ -57,7 +57,7 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
     }
 
     /***
-     * Agrega un tipo de pokemón a la DB local
+     * Agrega un tipo_item de pokemón a la DB local
      * @param model TipoModel
      * @return true en caso de éxito, false en caso contrario
      */
@@ -67,7 +67,7 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put("idtipo",model.getIdtipo());
             values.put("nombre",model.getNombre().toUpperCase());
-            long resultado = db.insert("tipo",null,values);
+            long resultado = db.insert("tipo_item",null,values);
             // Log.d(tag,String.valueOf(resultado));
             db.close();
             if(resultado==-1){
@@ -108,7 +108,7 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
     }
 
     /***
-     * Edita un tipo de pokemon desde la DB local
+     * Edita un tipo_item de pokemon desde la DB local
      * @param model TipoModel
      * @return true en caso de éxito, false en caso contrario
      */
@@ -119,7 +119,7 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
         values.put("idtipo",model.getIdtipo());
         values.put("nombre",model.getNombre().toUpperCase());
         String[] whereString = {String.valueOf(model.getIdtipo())};
-        long resultado = db.update("tipo",values,"idtipo=?",whereString);
+        long resultado = db.update("tipo_item",values,"idtipo=?",whereString);
         db.close();
         if(resultado==-1){
             return false;
@@ -128,15 +128,15 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Obtiene un tipo de pokemon según el idtipo desde la DB Local
+     * Obtiene un tipo_item de pokemon según el idtipo desde la DB Local
      * @param model TipoModel
-     * @return el tipo en caso de éxito, null en caso contrario
+     * @return el tipo_item en caso de éxito, null en caso contrario
      */
     public TipoModel obtenerTipo(TipoModel model){
         SQLiteDatabase db = getReadableDatabase();
         String[] columnas = {"idtipo","nombre"};
         String[] whereString = {String.valueOf(model.getIdtipo())};
-        Cursor c = db.query("tipo", columnas, "idtipo=?", whereString, null, null, null);
+        Cursor c = db.query("tipo_item", columnas, "idtipo=?", whereString, null, null, null);
         if(c!=null){
             if(c.moveToFirst()){
                 Log.d(tag,"¡Tipo "+model.getNombre() + " encontrado localmente!");
@@ -145,7 +145,7 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
                     return amigo;
                 } while (c.moveToNext());
             } else {
-                Log.d(tag,"¡No existe tipo " + model.getNombre() +" localmente!");
+                Log.d(tag,"¡No existe tipo_item " + model.getNombre() +" localmente!");
                 return null;
             }
         } else {
@@ -294,7 +294,7 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Obtiene los pokemon según el tipo de pokemon
+     * Obtiene los pokemon según el tipo_item de pokemon
      * @param tipo TipoModel
      * @return ArrayList<PokemonModel> en caso de éxito, null en caso contrario
      */
@@ -308,13 +308,13 @@ public class DBLocalOpenHelper extends SQLiteOpenHelper {
         Cursor c = db.query("pokemon", columnas, "idtipo=?", whereString, null, null, "nombre ASC");
         if(c!=null){
             if(c.moveToFirst()){
-                Log.d(tag,"¡Pokemónes de tipo "+tipo.getNombre() + " encontrado localmente!");
+                Log.d(tag,"¡Pokemónes de tipo_item "+tipo.getNombre() + " encontrado localmente!");
                 do {
                     PokemonModel pokemon = new PokemonModel(c.getInt(0),c.getInt(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),c.getString(7),c.getString(8));
                     pokemones.add(pokemon);
                 } while (c.moveToNext());
             } else {
-                Log.d(tag,"No hay pokemones de ese tipo");
+                Log.d(tag,"No hay pokemones de ese tipo_item");
                 pokemones = null;
             }
         } else {

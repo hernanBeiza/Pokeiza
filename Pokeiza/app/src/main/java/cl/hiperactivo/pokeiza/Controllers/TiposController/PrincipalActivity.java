@@ -3,6 +3,7 @@ package cl.hiperactivo.pokeiza.Controllers.TiposController;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,8 @@ public class PrincipalActivity extends AppCompatActivity implements TiposDAO.Tip
         tiposListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 //Log.d(tag, "onItemClick " + position);
+                v.setSelected(true);
+
                 TipoModel tipo = (TipoModel) tiposListView.getAdapter().getItem(position);
                 Log.d(tag, tipo.toString());
 

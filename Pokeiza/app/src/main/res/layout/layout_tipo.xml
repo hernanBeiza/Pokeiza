@@ -10,9 +10,7 @@
         android:gravity="center"
         android:text="nombreTextView"
         android:textAlignment="viewStart"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/tipo_item"
         android:textSize="24sp" />
 
 </LinearLayout>
-
-

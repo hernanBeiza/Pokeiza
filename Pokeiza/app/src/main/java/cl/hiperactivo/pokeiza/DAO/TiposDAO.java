@@ -97,7 +97,7 @@ public class TiposDAO {
                 //e.printStackTrace();
             } catch (Exception ex){
                 Log.d(tag,"Error al cargar los tipos");
-                ex.printStackTrace();
+                Log.d(tag, ex.getLocalizedMessage());
             }
 
             return resultString.toString();
@@ -124,11 +124,11 @@ public class TiposDAO {
                 TipoModel model = new TipoModel(id,nombre.toUpperCase());
                 //Log.d(tag,model.toString());
                 if(dbLocalOpenHelper.agregarTipo(model)){
-                    //Log.d(tag,"tipo agregado");
+                    //Log.d(tag,"tipo_item agregado");
                     String cargando = "Tipo " + nombre + " cargado. "  + " Tipo: " + idtipo + " de 18";
                     delegate.onTiposDAOCargando(cargando);
                 } else {
-                    //Log.d(tag,"tipo no agregado");
+                    //Log.d(tag,"tipo_item no agregado");
                 }
 
                 JSONArray pokemones = jsonResponse.getJSONArray("pokemon");
@@ -151,7 +151,7 @@ public class TiposDAO {
                     }
                 }
 
-                //Cargar el siguiente tipo
+                //Cargar el siguiente tipo_item
                 idtipo++;
                 cargar();
 

@@ -39,6 +39,8 @@ public class PokemonesActivity extends AppCompatActivity {
         pokemonesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 Log.d(tag, "onItemClick " + position);
+                v.setSelected(true);
+
                 PokemonModel pokemon = (PokemonModel) pokemonesListView.getAdapter().getItem(position);
                 Log.d(tag, pokemon.toString());
 
@@ -92,7 +94,7 @@ public class PokemonesActivity extends AppCompatActivity {
     }
 
     /**
-     * Carga los pokemones según el tipo
+     * Carga los pokemones según el tipo_item
      * @param tipo TipoModel
      */
     private void cargarPokemonesConTipo(TipoModel tipo){
@@ -102,8 +104,8 @@ public class PokemonesActivity extends AppCompatActivity {
             PokemonesAdapter adapter = new PokemonesAdapter(getApplicationContext(),R.layout.layout_pokemon,pokemones);
             pokemonesListView.setAdapter(adapter);
         } else {
-            Log.d(tag,"No hay pokemones de ese tipo");
-            Alerta.getInstance().mostrarme(this,"No hay pokemons de este tipo", true);
+            Log.d(tag,"No hay pokemones de ese tipo_item");
+            Alerta.getInstance().mostrarme(this,"No hay pokemons de este tipo_item", true);
         }
 
     }
